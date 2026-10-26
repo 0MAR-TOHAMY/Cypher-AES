@@ -1,0 +1,86 @@
+.sld {
+  box-sizing: border-box;
+  font-family: var(--font-ui);
+  color: var(--fill-on, var(--ink));
+}
+
+.sld-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  background: var(--fill-slab, var(--card));
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+[data-stroke="on"] .sld-track {
+  box-shadow: inset 0 0 0 1px var(--pane-edge);
+}
+.sld-wash {
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  bottom: 4px;
+  background: var(--fill-on, var(--ink));
+  z-index: 1;
+  pointer-events: none;
+}
+
+.sld-say {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: color-mix(
+    in srgb,
+    var(--fill-on, #17181a) 52%,
+    var(--fill-slab, #ffffff)
+  );
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.sld-grip {
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  background: var(--fill-on, var(--ink));
+  color: var(--fill-slab, var(--card));
+  cursor: grab;
+  pointer-events: auto;
+  transform-origin: 0% 50%;
+  transition: none;
+  z-index: 2;
+}
+
+.sld-track[data-held] .sld-grip {
+  cursor: grabbing;
+}
+.sld-arrow,
+.sld-done {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sld-done {
+    transition-duration: 160ms;
+  }
+}
