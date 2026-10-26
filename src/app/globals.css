@@ -1,0 +1,6 @@
+/* نقطة تجميع التنسيق؛ الترتيب مقصود حتى تتبع المكونات التهيئة العامة. */
+@import "../styles/base.css";
+@import "../styles/layout.css";
+@import "../styles/controls.css";
+@import "../styles/images.css";
+@import "../styles/modal.css";

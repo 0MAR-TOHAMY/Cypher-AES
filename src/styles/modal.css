@@ -1,0 +1,155 @@
+/* نافذة إنشاء المفتاح وحالة النجاح والقيم الناتجة. */
+
+.key-modal {
+  width: min(460px, calc(100vw - 32px));
+  max-height: calc(100dvh - 40px);
+  border: 1px solid #ededed;
+  padding: 26px;
+  background: #fff;
+  color: #111;
+  overflow: auto;
+  font-family: var(--font-ui);
+}
+.key-modal::backdrop {
+  background: rgba(15, 20, 30, 0.28);
+  backdrop-filter: blur(4px);
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.modal-header h2 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 500;
+}
+.modal-header > button {
+  border: 0;
+  background: #f5f5f5;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  font-size: 21px;
+  color: #777;
+}
+.modal-fields {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+.use-key {
+  width: 100%;
+  border: 0;
+  border-radius: 9px;
+  padding: 12px 14px;
+  font-size: 12px;
+  margin-top: 20px;
+}
+.use-key {
+  background: #2458f5;
+  color: #fff;
+}
+.use-key:disabled {
+  opacity: 0.4;
+}
+.modal-error {
+  font-size: 11px;
+  color: #a33;
+  line-height: 1.7;
+}
+.key-modal[open] {
+  animation: modal-enter 0.18s ease-out;
+}
+@media (max-width: 720px) {
+  .key-modal {
+    padding: 22px;
+  }
+  .key-modal .value-field {
+    margin-top: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .key-modal[open] {
+    animation: none;
+  }
+}
+.key-modal .value-field {
+  margin-top: 13px;
+}
+.key-modal .lbi {
+  padding-top: 6px;
+}
+.key-modal {
+  corner-shape: squircle;
+}
+.key-modal {
+  border-radius: 26px !important;
+}
+.modal-header > button {
+  corner-shape: squircle;
+  border-radius: 10px !important;
+}
+.key-success {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.success-mark {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  margin: 4px auto 0;
+  background: #eef2ff;
+  color: #2458f5;
+  border-radius: 14px;
+  corner-shape: squircle;
+}
+.generated-value {
+  background: #fafafa;
+  padding: 12px 14px;
+  border-radius: 12px;
+  corner-shape: squircle;
+}
+.generated-value > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #666;
+}
+.generated-value p {
+  font-size: 12px;
+  color: #222;
+  overflow-wrap: anywhere;
+  user-select: text;
+  margin: 8px 0 0;
+}
+.generated-value .icon-copy {
+  border: 0;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  color: #2458f5;
+  background: transparent;
+  border-radius: 8px;
+}
+.create-again {
+  border: 0;
+  background: none;
+  color: #777;
+  font-size: 11px;
+  padding: 5px;
+}
+.key-success .use-key {
+  margin-top: 2px;
+}
+.generated-value small {
+  font-size: 10px;
+  color: #a33;
+}

@@ -1,0 +1,149 @@
+/* الخط المحلي والألوان والتهيئة العامة وإتاحة الحركة. */
+:root {
+  --muted: #858580;
+  --paper: #fff;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-size: 14px;
+}
+button {
+  font: inherit;
+}
+input {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+  transition:
+    background 0.18s,
+    color 0.18s;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+button:focus-visible {
+  outline: 2px solid #666;
+  outline-offset: 4px;
+}
+input:focus-visible {
+  outline: 2px solid #666;
+  outline-offset: 4px;
+}
+button {
+  color: inherit;
+}
+footer {
+  display: flex;
+  justify-content: space-between;
+  letter-spacing: 0.5px;
+  border-top: 1px solid var(--line);
+  padding: 24px 0;
+}
+footer b {
+  font-weight: 400;
+  padding: 0 7px;
+}
+button:hover {
+  filter: brightness(0.97);
+}
+@media (max-width: 720px) {
+  footer {
+    font-size: 8px;
+    gap: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
+:root {
+  --bg: #fff;
+  --ink: #111;
+  --accent: #2458f5;
+  --line: #f0f0f0;
+}
+body {
+  background: #fff;
+  color: #111;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+footer {
+  margin-top: 65px;
+  color: #aaa;
+  border-color: #f5f5f5;
+  font-size: 9px;
+}
+@media (max-width: 720px) {
+  footer {
+    margin-top: 38px;
+  }
+}
+@font-face {
+  font-family: "IBM Plex Sans Arabic";
+  src: url("/fonts/IBMPlexSansArabic-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBM Plex Sans Arabic";
+  src: url("/fonts/IBMPlexSansArabic-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBM Plex Sans Arabic";
+  src: url("/fonts/IBMPlexSansArabic-SemiBold.woff2") format("woff2");
+  font-weight: 600 800;
+  font-display: swap;
+}
+:root {
+  --font-ui: "IBM Plex Sans Arabic", sans-serif;
+  --fill-slab: #f7f7f7;
+  --card: #fff;
+  --fill-on: #111;
+  --ink-4: #777;
+  --ink-3: #555;
+}
+body {
+  font-family: var(--font-ui);
+}
+input {
+  font-family: var(--font-ui);
+}
+button {
+  font-family: var(--font-ui);
+}
+html {
+  height: 100%;
+  overflow: hidden;
+}
+body {
+  height: 100%;
+  overflow: hidden;
+}
+@keyframes modal-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+button {
+  corner-shape: squircle;
+  border-radius: 12px !important;
+}

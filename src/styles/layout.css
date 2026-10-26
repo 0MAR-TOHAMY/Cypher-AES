@@ -1,0 +1,256 @@
+/* توزيع الصفحة داخل ارتفاع الشاشة واستجابة المقاسات. */
+
+.shell {
+  margin: auto;
+}
+.result-status i {
+  width: 5px;
+  height: 5px;
+  background: #777;
+  border-radius: 50%;
+  display: inline-block;
+}
+.workspace-grid {
+  display: grid;
+}
+.result-panel {
+  padding: 0;
+  top: 25px;
+}
+.error-box {
+  color: #883c30;
+  background: #f5eeeb;
+}
+.result-heading {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+}
+.result-status {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+@media (max-width: 720px) {
+  .result-panel {
+    position: static;
+  }
+  .control-panel {
+    padding-bottom: 0;
+  }
+  .result-heading {
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+  }
+}
+.shell {
+  max-width: 1200px;
+}
+.workspace-grid {
+  gap: 64px;
+}
+.control-panel {
+  padding: 0;
+}
+.result-panel {
+  position: static;
+}
+.result-heading {
+  padding-bottom: 0;
+  border: 0;
+}
+.result-heading h2 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+}
+.result-status {
+  color: #888;
+}
+@media (max-width: 950px) {
+  .workspace-grid {
+    grid-template-columns: 290px minmax(0, 1fr);
+    gap: 30px;
+  }
+  .shell {
+    padding: 0 30px;
+  }
+}
+@media (max-width: 720px) {
+  .workspace-grid {
+    grid-template-columns: 1fr;
+  }
+  .result-heading {
+    border: 0;
+    padding: 0;
+  }
+}
+.shell {
+  padding-top: 85px;
+  padding-bottom: 60px;
+}
+.control-panel > .field-heading {
+  font-size: 12px;
+}
+.result-heading h2 {
+  display: none;
+}
+.result-heading {
+  justify-content: flex-end;
+  min-height: 0;
+}
+.result-status {
+  font-size: 10px;
+}
+@media (max-width: 720px) {
+  .shell {
+    padding-top: 30px;
+  }
+}
+.shell {
+  height: 100dvh;
+  padding: 28px 40px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.workspace-grid {
+  flex: 1;
+  min-height: 0;
+  align-items: stretch;
+  grid-template-columns: 310px minmax(0, 1fr);
+}
+.control-panel {
+  min-height: 0;
+  align-self: center;
+}
+.result-panel {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+}
+.result-heading {
+  flex: none;
+}
+.error-box {
+  font-size: 10px;
+  line-height: 1.5;
+  padding: 7px;
+  margin-top: 7px;
+}
+@media (max-height: 760px) and (min-width: 721px) {
+  .shell {
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+}
+@media (max-width: 720px) {
+  .shell {
+    padding: 16px 20px;
+  }
+  .workspace-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .control-panel {
+    width: 100%;
+    flex: none;
+    align-self: stretch;
+  }
+  .result-panel {
+    flex: 1;
+    gap: 7px;
+  }
+  .result-heading {
+    display: none;
+  }
+  .error-box {
+    position: absolute;
+    bottom: 8px;
+    right: 20px;
+    left: 20px;
+    z-index: 4;
+  }
+  .control-panel {
+    position: static;
+  }
+}
+.result-panel {
+  padding-block: 24px;
+}
+@media (max-width: 720px) {
+  .result-panel {
+    padding-block: 8px;
+  }
+}
+.control-panel {
+  max-height: 100%;
+  overflow: auto;
+  padding-inline: 3px;
+}
+@media (max-width: 720px) {
+  .control-panel {
+    flex-shrink: 1;
+    overflow: auto;
+  }
+  .control-panel {
+    max-height: 68dvh;
+  }
+  .result-panel {
+    min-height: 110px;
+  }
+}
+.control-panel {
+  scrollbar-width: none;
+  overflow-x: hidden;
+}
+.control-panel::-webkit-scrollbar {
+  display: none;
+}
+.control-panel > * {
+  max-width: 100%;
+}
+.control-panel .lbi-ring {
+  overflow: hidden;
+}
+.control-panel .lbi {
+  padding-inline: 1px;
+}
+.control-panel .open-key-generator {
+  margin-top: 2px;
+}
+@media (min-width: 721px) {
+  .control-panel {
+    overflow-y: auto;
+  }
+}
+.control-panel .field-heading {
+  margin: 10px 0 4px;
+}
+.control-panel .value-field {
+  margin-top: 9px;
+}
+.control-panel .upl {
+  margin-top: 5px;
+}
+.control-panel .open-key-generator {
+  margin-bottom: 9px;
+}
+.control-panel .execute-control {
+  margin-top: 10px;
+}
+@media (max-width: 720px) {
+  .control-panel .field-heading {
+    margin: 7px 0 3px;
+  }
+  .control-panel .value-field {
+    margin-top: 6px;
+  }
+}
+.error-box {
+  corner-shape: squircle;
+  border-radius: 12px !important;
+}
