@@ -1,7 +1,12 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { deriveKey, generateSecret, randomBytes } from "@/lib/crypto/keys";
-import { fromHex, toHex } from "@/lib/crypto/encoding";
+import {
+  deriveKey,
+  generateSecret,
+  randomBytes,
+  saltFromText,
+} from "@/lib/crypto/keys";
+import { toHex } from "@/lib/crypto/encoding";
 import { Icon } from "./Icons";
 import CopyButton from "./CopyButton";
 import ValueField from "./ValueField";
@@ -29,12 +34,12 @@ export default function KeyGenerator({
       dialog.current?.showModal();
     } else if (!open && dialog.current?.open) dialog.current.close();
   }, [open]);
-  // التحقق من Salt ثم اشتقاق Key؛ نجاح العملية يستبدل النموذج بالقيم الناتجة.
+  // تحويل Salt لـbytes ثم اشتقاق Key؛ نجاح العملية يستبدل النموذج بالقيم الناتجة.
   async function derive() {
     setBusy(true);
     setError("");
     try {
-      const key = await deriveKey(phrase, fromHex(salt, 16, "الملح"), 210000);
+      const key = await deriveKey(phrase, saltFromText(salt), 210000);
       setOutput(toHex(key));
       key.fill(0);
     } catch (cause) {
@@ -110,7 +115,7 @@ export default function KeyGenerator({
             <ValueField
               id="generator-salt"
               label="الملح (Salt)"
-              placeholder="32 hex chars"
+              placeholder="any text · 16+ chars recommended"
               value={salt}
               onChange={setSalt}
               onRandom={() => setSalt(toHex(randomBytes(16)))}

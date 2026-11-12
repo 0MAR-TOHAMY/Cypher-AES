@@ -30,6 +30,13 @@ function bytesToBase64(bytes: Uint8Array): string {
   return btoa(binary);
 }
 
+// الـSalt أي نص غير فاضي، ويتحول لـbytes بترميز UTF-8.
+// PBKDF2 بيقبل أي طول؛ NIST SP 800-132 بيوصي بـ16 byte (128 bit) عشوائية على الأقل.
+export function saltFromText(text: string): Uint8Array {
+  if (!text) throw new Error("اكتب Salt أولًا (أي نص).");
+  return encoder.encode(text);
+}
+
 // نفس العبارة وSalt وعدد التكرارات تنتج دائمًا نفس مفتاح AES-256 (32 byte).
 export async function deriveKey(
   passphrase: string,

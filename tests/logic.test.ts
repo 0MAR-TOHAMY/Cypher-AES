@@ -2,26 +2,34 @@ import { readFileSync } from "node:fs";
 import { decode } from "fast-png";
 import { fromHex, toHex } from "../src/lib/crypto/encoding";
 import { encryptBytes, decryptBytes } from "../src/lib/crypto/modes";
-import { generateAesKey, randomBytes } from "../src/lib/crypto/keys";
-import { parseModeParameter } from "../src/lib/crypto/parameters";
 import {
-  encryptPixels,
-  decryptCipherPng,
-} from "../src/lib/workflows/manual";
+  deriveKey,
+  generateAesKey,
+  randomBytes,
+  saltFromText,
+} from "../src/lib/crypto/keys";
+import { parseModeParameter } from "../src/lib/crypto/parameters";
+import { encryptPixels, decryptCipherPng } from "../src/lib/workflows/manual";
 import type { AesMode } from "../src/lib/types";
 
 let failed = 0;
 function check(name: string, ok: boolean, detail = "") {
-  console.log(`${ok ? "PASS" : "FAIL"}  ${name}${detail ? `  (${detail})` : ""}`);
+  console.log(
+    `${ok ? "PASS" : "FAIL"}  ${name}${detail ? `  (${detail})` : ""}`,
+  );
   if (!ok) failed++;
 }
-const hex = (s: string) => fromHex(s.replace(/\s+/g, ""), s.replace(/\s+/g, "").length / 2, "test");
+const hex = (s: string) =>
+  fromHex(s.replace(/\s+/g, ""), s.replace(/\s+/g, "").length / 2, "test");
 const equal = (a: Uint8Array, b: Uint8Array) =>
   a.length === b.length && a.every((v, i) => v === b[i]);
 
 // ---------- NIST SP 800-38A Appendix F (AES-256) ----------
-const key = hex("603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4");
-const plain = hex(`6bc1bee22e409f96e93d7e117393172a ae2d8a571e03ac9c9eb76fac45af8e51
+const key = hex(
+  "603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4",
+);
+const plain =
+  hex(`6bc1bee22e409f96e93d7e117393172a ae2d8a571e03ac9c9eb76fac45af8e51
   30c81c46a35ce411e5fbc1191a0a52ef f69f2445df4f9b17ad2b417be66c3710`);
 const vectors: { mode: AesMode; iv: string; cipher: string }[] = [
   {
@@ -47,13 +55,17 @@ for (const v of vectors) {
   const iv = v.iv ? hex(v.iv) : new Uint8Array();
   const c = encryptBytes(v.mode, key, plain, iv, true);
   check(`NIST ${v.mode} encrypt`, toHex(c) === v.cipher.replace(/\s+/g, ""));
-  check(`NIST ${v.mode} decrypt`, equal(decryptBytes(v.mode, key, c, iv, true), plain));
+  check(
+    `NIST ${v.mode} decrypt`,
+    equal(decryptBytes(v.mode, key, c, iv, true), plain),
+  );
 }
 
 // العداد العشري 85 (مثال المحاضرة) يتحول لـ16 byte big-endian.
 check(
   "CTR counter 85 → 16 bytes",
-  toHex(parseModeParameter("CTR", "85")!) === "00000000000000000000000000000055",
+  toHex(parseModeParameter("CTR", "85")!) ===
+    "00000000000000000000000000000055",
 );
 
 // ---------- دورة كاملة على الصور ----------
@@ -65,8 +77,10 @@ function rgbaOf(path: string) {
   const rgba = new Uint8Array(width * height * 4);
   for (let i = 0; i < width * height; i++) {
     for (let c = 0; c < 3; c++)
-      rgba[i * 4 + c] = channels >= 3 ? src[i * channels + c] : src[i * channels];
-    rgba[i * 4 + 3] = channels === 4 || channels === 2 ? src[i * channels + channels - 1] : 255;
+      rgba[i * 4 + c] =
+        channels >= 3 ? src[i * channels + c] : src[i * channels];
+    rgba[i * 4 + 3] =
+      channels === 4 || channels === 2 ? src[i * channels + channels - 1] : 255;
   }
   return { width, height, rgba };
 }
@@ -141,5 +155,35 @@ for (const [name, source] of Object.entries(images)) {
   check("CBC file decrypted as CTR rejected", threw);
 }
 
-console.log(failed ? `\n${failed} FAILED` : "\nALL PASSED");
-process.exit(failed ? 1 : 0);
+// ---------- اشتقاق المفتاح من جملة + Salt بأي طول ----------
+async function derivationTests() {
+  const k = (phrase: string, salt: string) =>
+    deriveKey(phrase, saltFromText(salt), 1000).then(toHex);
+  const a = await k("my secret phrase", "a1b2c3d4e5f60718293a4b5c6d7e8f90");
+  check("PBKDF2 key is 256-bit", a.length === 64);
+  check(
+    "same phrase + salt -> same key",
+    a === (await k("my secret phrase", "a1b2c3d4e5f60718293a4b5c6d7e8f90")),
+  );
+  check(
+    "different salt -> different key",
+    a !== (await k("my secret phrase", "a1b2c3d4e5f60718293a4b5c6d7e8f91")),
+  );
+  check("short salt accepted", (await k("phrase", "ab")).length === 64);
+  check(
+    "Arabic text salt accepted",
+    (await k("جملة", "ملح عربي")).length === 64,
+  );
+  let threw = false;
+  try {
+    saltFromText("");
+  } catch {
+    threw = true;
+  }
+  check("empty salt rejected", threw);
+}
+
+derivationTests().then(() => {
+  console.log(failed ? `\n${failed} FAILED` : "\nALL PASSED");
+  process.exit(failed ? 1 : 0);
+});
