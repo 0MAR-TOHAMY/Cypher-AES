@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- أيقونة التطبيق: قفل أبيض جسمه شبكة بكسلات (صورة مشفرة) على أزرق الموقع -->
+  <rect width="512" height="512" rx="116" fill="#2458f5"/>
+  <path d="M190 236v-46a66 66 0 0 1 132 0v46" fill="none" stroke="#fff" stroke-width="34" stroke-linecap="round"/>
+  <rect x="150" y="226" width="212" height="176" rx="32" fill="#fff"/>
+  <g>
+    <rect x="190" y="254" width="38" height="38" rx="7" fill="#2458f5"/>
+    <rect x="237" y="254" width="38" height="38" rx="7" fill="#a5b4fc"/>
+    <rect x="284" y="254" width="38" height="38" rx="7" fill="#1e3a8a"/>
+    <rect x="190" y="301" width="38" height="38" rx="7" fill="#a5b4fc"/>
+    <rect x="237" y="301" width="38" height="38" rx="7" fill="#1e3a8a"/>
+    <rect x="284" y="301" width="38" height="38" rx="7" fill="#2458f5"/>
+    <rect x="190" y="348" width="38" height="38" rx="7" fill="#1e3a8a"/>
+    <rect x="237" y="348" width="38" height="38" rx="7" fill="#2458f5"/>
+    <rect x="284" y="348" width="38" height="38" rx="7" fill="#a5b4fc"/>
+  </g>
+</svg>
