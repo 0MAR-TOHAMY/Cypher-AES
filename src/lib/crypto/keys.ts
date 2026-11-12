@@ -1,12 +1,20 @@
+import { randomBytes as nobleRandomBytes } from "@noble/ciphers/utils.js";
+
 const encoder = new TextEncoder();
 
 function arrayBuffer(bytes: Uint8Array): ArrayBuffer {
   return new Uint8Array(bytes).buffer;
 }
 
-// يعتمد التوليد على مولد المتصفح الآمن، وليس Math.random.
+// توليد Key وIV وCounter من نفس مكتبة التشفير (@noble/ciphers)،
+// وهي تعتمد على مولد آمن CSPRNG وليس Math.random.
 export function randomBytes(length: number): Uint8Array {
-  return crypto.getRandomValues(new Uint8Array(length));
+  return nobleRandomBytes(length);
+}
+
+// مفتاح AES-256 عشوائي: 32 byte = 256 bit.
+export function generateAesKey(): Uint8Array {
+  return randomBytes(32);
 }
 
 export function generateSecret(): string {

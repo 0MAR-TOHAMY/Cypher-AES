@@ -213,15 +213,6 @@
 .control-panel > * {
   max-width: 100%;
 }
-.control-panel .lbi-ring {
-  overflow: hidden;
-}
-.control-panel .lbi {
-  padding-inline: 1px;
-}
-.control-panel .open-key-generator {
-  margin-top: 2px;
-}
 @media (min-width: 721px) {
   .control-panel {
     overflow-y: auto;
@@ -235,9 +226,6 @@
 }
 .control-panel .upl {
   margin-top: 5px;
-}
-.control-panel .open-key-generator {
-  margin-bottom: 9px;
 }
 .control-panel .execute-control {
   margin-top: 10px;

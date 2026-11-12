@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "next dev -p 3001",
     "build": "next build",
-    "test": "tsc --noEmit",
-    "test:browser": "node tests/browser.mjs",
+    "test": "tsc --noEmit && tsx tests/logic.test.ts",
+    "test:logic": "tsx tests/logic.test.ts",
     "format": "prettier --write src tests *.ts *.json *.md",
     "format:check": "prettier --check src tests *.ts *.json *.md"
   },

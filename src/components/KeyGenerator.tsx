@@ -109,7 +109,8 @@ export default function KeyGenerator({
             />
             <ValueField
               id="generator-salt"
-              label={'الملح "Salt" · ٣٢ رمزًا ست عشريًا'}
+              label="الملح (Salt)"
+              placeholder="32 hex chars"
               value={salt}
               onChange={setSalt}
               onRandom={() => setSalt(toHex(randomBytes(16)))}

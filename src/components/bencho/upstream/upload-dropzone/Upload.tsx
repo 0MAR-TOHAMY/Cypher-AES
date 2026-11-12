@@ -38,18 +38,20 @@ export function Upload({
     : null;
   return (
     <div className="upl" style={{ "--upl-r": "12px" } as React.CSSProperties}>
-      <div className="upload-field-tools">
-        <button
-          type="button"
-          className="field-clear"
-          aria-label={`مسح ${label}`}
-          title="مسح الصورة"
-          disabled={!file}
-          onClick={() => onFile(null)}
-        >
-          <Icon name="close" size={15} />
-        </button>
-      </div>
+      {file && (
+        <div className="upload-field-tools">
+          <button
+            type="button"
+            className="field-clear"
+            aria-label={`مسح ${label}`}
+            title="مسح الصورة"
+            disabled={!file}
+            onClick={() => onFile(null)}
+          >
+            <Icon name="close" size={14} />
+          </button>
+        </div>
+      )}
       <motion.div
         className="upl-zone-wrap"
         animate={{ scale: over && !reduced ? 1.025 : 1 }}

@@ -1,40 +1,45 @@
 "use client";
-// حقل موحد مع التوليد والنسخ والمسح؛ لا ينفّذ اشتقاقًا أو تشفيرًا.
+// حقل موحد: العنوان فوق الحقل، والأدوات (توليد/نسخ/مسح) جنبه؛ لا ينفّذ اشتقاقًا أو تشفيرًا.
+import type { ReactNode } from "react";
 import { Icon } from "./Icons";
 import CopyButton from "./CopyButton";
-import { LabelInput } from "./bencho/Controls";
+
 export default function ValueField({
   id,
   label,
+  placeholder,
   value,
   onChange,
   onRandom,
-  secret = false,
   tools = true,
+  extra,
 }: {
   id: string;
   label: string;
+  placeholder?: string;
   value: string;
   onChange: (value: string) => void;
   onRandom: () => void;
-  secret?: boolean;
   tools?: boolean;
+  extra?: ReactNode;
 }) {
   return (
     <div className="value-field">
-      <div className="value-tools">
-        <div>
+      <div className="field-head">
+        <label htmlFor={id}>{label}</label>
+        <div className="field-actions">
+          {extra}
           {tools && (
             <>
               <button
                 type="button"
+                className="field-action"
                 aria-label={`توليد عشوائي ${label}`}
-                onClick={() => {
-                  onRandom();
-                }}
+                title="توليد عشوائي"
+                onClick={onRandom}
               >
                 <Icon name="random" size={14} />
-                توليد عشوائي
+                توليد
               </button>
               <CopyButton value={value} label={label} />
             </>
@@ -45,21 +50,21 @@ export default function ValueField({
             aria-label={`مسح ${label}`}
             title="مسح"
             disabled={!value}
-            onClick={() => {
-              onChange("");
-            }}
+            onClick={() => onChange("")}
           >
-            <Icon name="close" size={15} />
+            <Icon name="close" size={14} />
           </button>
         </div>
       </div>
-      <LabelInput
+      <input
         id={id}
-        label={label}
-        value={value}
-        onChange={onChange}
+        className="text-input"
         dir="ltr"
-        secret={secret}
+        spellCheck={false}
+        autoComplete="off"
+        placeholder={placeholder}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
       />
     </div>
   );

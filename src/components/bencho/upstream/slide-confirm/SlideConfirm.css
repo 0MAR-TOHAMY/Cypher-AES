@@ -49,7 +49,7 @@
   position: absolute;
   left: 4px;
   top: 4px;
-  height: 48px;
+  height: 34px;
   padding: 0;
   border: 0;
   background: var(--fill-on, var(--ink));

@@ -7,7 +7,7 @@ const clamp = (v: number, lo: number, hi: number) =>
   Math.min(hi, Math.max(lo, v));
 
 const SPAN = 280;
-const H = 56;
+const H = 42;
 
 const PAD = 4;
 
@@ -64,7 +64,19 @@ export function SlideConfirm({
 
   const shown = useMotionValue(1);
 
-  const span = clamp(Math.round(width), MIN, MAX);
+  // العرض الفعلي = الأصغر بين المطلوب ومساحة الأب، عشان مسافة السحب تطابق الشكل.
+  const box = useRef<HTMLDivElement | null>(null);
+  const [room, setRoom] = useState(width);
+  useEffect(() => {
+    const parent = box.current?.parentElement;
+    if (!parent) return;
+    const observer = new ResizeObserver(([entry]) =>
+      setRoom(entry.contentRect.width),
+    );
+    observer.observe(parent);
+    return () => observer.disconnect();
+  }, []);
+  const span = clamp(Math.round(Math.min(width, room || width)), MIN, MAX);
   const TRAVEL = span - PAD * 2 - GRIP;
 
   const r = clamp(corner, 0, CORNER);
@@ -225,7 +237,7 @@ export function SlideConfirm({
   live.current = { move, up };
 
   return (
-    <div className="sld" style={{ width: span, height: H }}>
+    <div className="sld" ref={box} style={{ width: span, height: H }}>
       <motion.div
         className="sld-track"
         ref={track}

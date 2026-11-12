@@ -1,36 +1,7 @@
 "use client";
-// Functional adaptations of Bencho Label input / Upload dropzone / Magnetic select.
+// Functional adaptations of Bencho Upload dropzone / Magnetic select.
 // Original source and MIT notice: THIRD_PARTY.md.
 import { type ReactNode } from "react";
-import { LabelInput as BenchoLabelInput } from "./upstream/label-input/LabelInput";
-
-export function LabelInput({
-  id,
-  label,
-  value,
-  onChange,
-  secret = false,
-  dir,
-}: {
-  id: string;
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  secret?: boolean;
-  dir?: "ltr" | "rtl";
-}) {
-  return (
-    <BenchoLabelInput
-      id={id}
-      label={label}
-      value={value}
-      onChange={onChange}
-      field={secret ? "Password" : "Text"}
-      corner={10}
-      dir={dir}
-    />
-  );
-}
 
 export { Upload } from "./upstream/upload-dropzone/Upload";
 

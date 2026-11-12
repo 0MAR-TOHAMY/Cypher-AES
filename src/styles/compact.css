@@ -1,0 +1,368 @@
+/* التنسيق النهائي للوحة التحكم: يُحمّل آخر ملف فيغلب القواعد السابقة.
+   مقياس مسافات واحد: 6px داخل القسم، 14px بين الأقسام. */
+.workspace-grid {
+  grid-template-columns: 360px minmax(0, 1fr);
+  gap: 40px;
+}
+.shell {
+  max-width: 1240px;
+}
+
+/* ---- عناوين الأقسام والحقول: كلها بنفس الشكل وفوق العنصر ---- */
+.control-panel .field-heading,
+.field-head label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #333;
+}
+.control-panel .field-heading {
+  margin: 14px 0 6px;
+}
+.control-panel > .bench-select:first-child {
+  margin-top: 0;
+}
+
+/* ---- الاختيارات (العملية / Mode) ---- */
+.bench-select {
+  padding: 3px;
+  gap: 3px;
+}
+.bench-select button {
+  padding: 6px 8px;
+  font-size: 11px;
+}
+
+/* ---- رفع الصورة: زر المسح يقعد في صف العنوان ---- */
+.upl {
+  position: relative;
+}
+.upload-field-tools {
+  position: absolute;
+  top: -24px;
+  left: 0;
+  margin: 0;
+}
+.upl,
+.control-panel .upl {
+  margin-top: 0;
+}
+.upl-zone {
+  min-height: 54px;
+  padding: 8px 10px;
+  flex-direction: row;
+  gap: 9px;
+}
+.upl-icon {
+  width: 28px;
+  height: 28px;
+  flex: none;
+}
+.upl-say {
+  gap: 1px;
+}
+.upl-say b,
+.upl-name {
+  font-size: 11px;
+}
+.upl-say > span,
+.upl-meta {
+  font-size: 9px;
+}
+.sample-row {
+  margin-top: 6px;
+  font-size: 10px;
+  gap: 6px;
+}
+.sample-row button {
+  padding: 3px 9px;
+  background: #f4f4f4;
+}
+
+/* ---- حقول القيم: العنوان والأدوات في صف، والحقل تحتهم ---- */
+.value-field,
+.control-panel .value-field,
+.key-modal .value-field {
+  margin-top: 14px;
+}
+.field-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+  min-height: 22px;
+}
+.field-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.field-action,
+.field-clear {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 0;
+  background: transparent;
+  color: #2458f5;
+  font-size: 10px;
+  padding: 3px 6px;
+}
+.field-action:hover {
+  background: #eef2ff;
+}
+.field-clear {
+  color: #999;
+  padding: 3px 4px;
+}
+.field-clear:disabled {
+  color: #ccc;
+  cursor: default;
+}
+.field-actions .icon-copy {
+  width: 22px;
+  height: 22px;
+  padding: 3px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: #2458f5;
+}
+.field-actions .icon-copy:hover {
+  background: #eef2ff;
+}
+.field-actions .icon-copy:disabled {
+  color: #ccc;
+}
+.text-input {
+  width: 100%;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid #e3e3e3;
+  border-radius: 9px;
+  background: #fff;
+  color: #111;
+  font-size: 12px;
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  letter-spacing: 0.01em;
+  transition: border-color 0.15s;
+}
+.text-input::placeholder {
+  color: #aaa;
+  font-family: var(--font-ui);
+}
+.text-input:hover {
+  border-color: #cfcfcf;
+}
+.text-input:focus {
+  border-color: #9aa9d6;
+  outline: none;
+  box-shadow: none;
+}
+
+/* ---- الملاحظة والتنفيذ ---- */
+.field-note,
+.control-panel .field-note {
+  font-size: 9.5px;
+  color: #888;
+  margin: 10px 0 0;
+  line-height: 1.6;
+}
+.control-panel .execute-control {
+  margin-top: 10px;
+}
+.sld-say,
+.sld-done {
+  font-size: 11px;
+}
+
+@media (max-width: 720px) {
+  .workspace-grid {
+    gap: 12px;
+  }
+}
+
+/* ================= مجموعات اللوحة ================= */
+.control-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-self: center;
+  padding-block: 4px;
+}
+.panel-group {
+  position: relative;
+  background: #fafafa;
+  border: 1px solid #efefef;
+  border-radius: 14px;
+  corner-shape: squircle;
+  padding: 14px 14px 16px;
+}
+.group-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 12px;
+  min-height: 22px;
+}
+.group-step {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #2458f5;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+}
+/* أول عنوان فرعي وأول حقل في المجموعة بدون مسافة علوية زائدة */
+.panel-group > .field-heading:first-of-type,
+.panel-group > .value-field:nth-child(2) {
+  margin-top: 0;
+}
+.control-panel .panel-group .field-heading {
+  margin: 12px 0 6px;
+  color: #555;
+}
+.control-panel .panel-group > .group-title + .field-heading {
+  margin-top: 0;
+}
+.panel-group .bench-select {
+  background: #fff;
+  border: 1px solid #eee;
+}
+.panel-group .upl-zone {
+  background: #fff;
+  border: 1px dashed #dcdcdc;
+}
+.panel-group .sample-row button {
+  background: #fff;
+  border: 1px solid #eee;
+}
+/* زر مسح الصورة يقعد في سطر عنوان المجموعة */
+.panel-group .upload-field-tools {
+  top: -34px;
+}
+.control-panel .execute-control,
+.control-panel .field-note {
+  margin-top: 0;
+}
+.panel-group .field-note {
+  margin-top: 10px;
+}
+
+/* ================= تكبير خفيف ================= */
+.bench-select button {
+  padding: 9px 10px;
+  font-size: 12px;
+}
+.control-panel .field-heading,
+.field-head label {
+  font-size: 12px;
+}
+.text-input {
+  height: 40px;
+  font-size: 12.5px;
+}
+.upl-zone {
+  min-height: 66px;
+  padding: 10px 12px;
+}
+.upl-icon {
+  width: 34px;
+  height: 34px;
+}
+.upl-say b,
+.upl-name {
+  font-size: 12px;
+}
+.upl-say > span,
+.upl-meta {
+  font-size: 10px;
+}
+.sample-row {
+  font-size: 11px;
+  margin-top: 8px;
+}
+.sample-row button {
+  font-size: 11px;
+  padding: 4px 10px;
+}
+.field-action {
+  font-size: 11px;
+}
+.field-note,
+.control-panel .field-note {
+  font-size: 10.5px;
+}
+.sld-say,
+.sld-done {
+  font-size: 12.5px;
+}
+
+@media (max-width: 1000px) {
+  .workspace-grid {
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: 24px;
+  }
+}
+@media (max-width: 720px) {
+  .workspace-grid {
+    grid-template-columns: 1fr;
+  }
+  .control-panel {
+    gap: 10px;
+  }
+  .panel-group {
+    padding: 12px;
+  }
+}
+
+/* شاشات قصيرة: نفس الترتيب بمسافات أقل عشان زر التنفيذ يفضل ظاهر */
+@media (max-height: 820px) and (min-width: 721px) {
+  .control-panel {
+    gap: 9px;
+  }
+  .panel-group {
+    padding: 11px 12px 12px;
+  }
+  .group-title {
+    margin-bottom: 9px;
+  }
+  .control-panel .panel-group .field-heading {
+    margin: 9px 0 5px;
+  }
+  .value-field,
+  .control-panel .value-field {
+    margin-top: 10px;
+  }
+  .bench-select button {
+    padding: 7px 10px;
+  }
+  .text-input {
+    height: 36px;
+  }
+  .upl-zone {
+    min-height: 56px;
+    padding: 8px 12px;
+  }
+  .panel-group .upload-field-tools {
+    top: -31px;
+  }
+}
+
+.about-link {
+  align-self: center;
+  font-size: 11px;
+  color: #2458f5;
+  text-decoration: none;
+}
+.about-link:hover {
+  text-decoration: underline;
+}

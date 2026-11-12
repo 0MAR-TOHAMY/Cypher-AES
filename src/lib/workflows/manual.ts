@@ -21,8 +21,18 @@ export async function encryptManual(
   mode: AesMode,
   parameter?: Uint8Array,
 ) {
-  // 1) قراءة الصورة وتجهيز صفوف البكسلات مع حفظ الشفافية عند وجودها.
   const source = await readImagePixels(file);
+  return encryptPixels(source, key, mode, parameter);
+}
+
+// قلب التشفير بدون File/Canvas، عشان يتختبر في Node بنفس الكود.
+export function encryptPixels(
+  source: { width: number; height: number; rgba: Uint8Array },
+  key: Uint8Array,
+  mode: AesMode,
+  parameter?: Uint8Array,
+) {
+  // 1) تجهيز صفوف البكسلات مع حفظ الشفافية عند وجودها.
   const rows = packPixelRows(source.rgba, source.width, source.height);
   // 2) اختيار قيمة البدء ومنع التفاف عداد CTR أثناء معالجة الصورة.
   const iv = mode === "ECB" ? new Uint8Array() : (parameter ?? randomBytes(16));
@@ -62,10 +72,20 @@ export async function decryptManual(
   mode: AesMode,
   iv?: Uint8Array,
 ) {
+  const png = new Uint8Array(await file.arrayBuffer());
+  return decryptCipherPng(png, key, mode, iv);
+}
+
+// قلب فك التشفير: يأخذ bytes ملف PNG المشفر ويرجع PNG الصورة المسترجعة.
+export function decryptCipherPng(
+  png: Uint8Array,
+  key: Uint8Array,
+  mode: AesMode,
+  iv?: Uint8Array,
+) {
   if (mode !== "ECB" && !iv)
     throw new Error("أدخل نفس IV / Initial Counter المستخدم في التشفير.");
   // 1) قراءة PNG المشفر واستنتاج طول الصف من أبعاده.
-  const png = new Uint8Array(await file.arrayBuffer());
   const image = decode(png, { checkCrc: true });
   if (image.width * image.height > 30_000_000)
     throw new Error("الصورة كبيرة جدًا.");

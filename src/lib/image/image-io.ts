@@ -3,7 +3,11 @@ import { encodeRecoveredPng } from "../format/cipher-png";
 // قراءة الصورة في Canvas للحصول على RGBA؛ يُغلق bitmap بعد نسخ البكسلات.
 export async function readImagePixels(file: File) {
   if (!file.type.startsWith("image/")) throw new Error("ارفع ملف صورة صالحًا.");
-  const bitmap = await createImageBitmap(file);
+  // بدون تحويل color profile أو premultiply حتى تبقى قيم البكسلات كما في الملف قدر الإمكان.
+  const bitmap = await createImageBitmap(file, {
+    colorSpaceConversion: "none",
+    premultiplyAlpha: "none",
+  });
   try {
     const { width, height } = bitmap;
     if (width * height > 30_000_000)

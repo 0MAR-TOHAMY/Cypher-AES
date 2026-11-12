@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import "@/components/bencho/upstream/label-input/LabelInput.css";
 import "@/components/bencho/upstream/upload-dropzone/Upload.css";
 import "@/components/bencho/upstream/slide-confirm/SlideConfirm.css";
 import "./globals.css";
