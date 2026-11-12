@@ -1,7 +1,7 @@
 "use client";
 import { fromHex, toHex } from "@/lib/crypto/encoding";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 
 import type { AesMode } from "@/lib/types";
@@ -14,6 +14,7 @@ import KeyGenerator from "./KeyGenerator";
 import ValueField from "./ValueField";
 import { SlideConfirm } from "./bencho/upstream/slide-confirm/SlideConfirm";
 import PreviewPanel, { type PreviewResult } from "./PreviewPanel";
+import ResultSheet, { useIsMobile } from "./ResultSheet";
 import { Upload, SelectGroup } from "./bencho/Controls";
 
 type Operation = "encrypt" | "decrypt";
@@ -77,6 +78,13 @@ export default function Workspace() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState<PreviewResult | null>(null);
+  // الموبايل: عارض النتيجة درج سفلي؛ يُفتح تلقائيًا عند اكتمال العملية.
+  const mobile = useIsMobile();
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const closeSheet = useCallback(() => setSheetOpen(false), []);
+  useEffect(() => {
+    if (result) setSheetOpen(true);
+  }, [result]);
   const [inputPreview, setInputPreview] = useState("");
 
   // 2) إنشاء رابط محلي للمعاينة، وإلغاؤه عند تغيير الملف لتجنب استهلاك الذاكرة.
@@ -106,6 +114,8 @@ export default function Workspace() {
     if (operation === "encrypt") setModeParameter("");
     setResult(null);
     setError("");
+    // على الموبايل: اعرض الصورة المختارة فورًا في درج المعاينة.
+    if (file) setSheetOpen(true);
   }
 
   function changeOperation(next: Operation) {
@@ -335,20 +345,37 @@ export default function Workspace() {
             </div>
           )}
         </section>
-        <PreviewPanel
-          result={result}
-          operation={operation}
-          busy={busy}
-          inputPreview={inputPreview}
-          onDownload={() => {
-            if (result)
-              download(
-                blobFrom(result.png, "image/png"),
-                `${result.basename}-${operation === "encrypt" ? `encrypted-${mode.toLowerCase()}` : "recovered"}.png`,
-              );
-          }}
-        />
+        <ResultSheet mobile={mobile} open={sheetOpen} onClose={closeSheet}>
+          <PreviewPanel
+            result={result}
+            operation={operation}
+            busy={busy}
+            inputPreview={inputPreview}
+            stacked={mobile}
+            onDownload={() => {
+              if (result)
+                download(
+                  blobFrom(result.png, "image/png"),
+                  `${result.basename}-${operation === "encrypt" ? `encrypted-${mode.toLowerCase()}` : "recovered"}.png`,
+                );
+            }}
+          />
+        </ResultSheet>
       </div>
+      {mobile && (
+        <button
+          type="button"
+          className="sheet-opener"
+          data-ready={!!result}
+          aria-expanded={sheetOpen}
+          onClick={() => setSheetOpen(true)}
+        >
+          <Icon name="image" size={16} />
+          <span>{result ? "عرض النتيجة" : "عرض المعاينة"}</span>
+          {result && <i className="sheet-dot" aria-hidden="true" />}
+          <Icon name="up" size={16} />
+        </button>
+      )}
 
       <KeyGenerator
         open={generatorOpen}

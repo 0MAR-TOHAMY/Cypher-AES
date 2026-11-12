@@ -16,12 +16,14 @@ export default function PreviewPanel({
   operation,
   busy,
   inputPreview,
+  stacked = false,
   onDownload,
 }: {
   result: PreviewResult | null;
   operation: "encrypt" | "decrypt";
   busy: boolean;
   inputPreview: string;
+  stacked?: boolean;
   onDownload: () => void;
 }) {
   // اختيار طريقة العرض وإعادة الحركة لا يغيّران البيانات المشفرة.
@@ -41,7 +43,10 @@ export default function PreviewPanel({
             <SelectGroup
               options={[
                 { value: "compare", label: "مقارنة حية" },
-                { value: "pair", label: "جنبًا إلى جنب" },
+                {
+                  value: "pair",
+                  label: stacked ? "أسفل بعض" : "جنبًا إلى جنب",
+                },
               ]}
               value={view}
               onChange={setView}

@@ -16,6 +16,7 @@ import {
   SquareLock01Icon,
   SquareUnlock01Icon,
   File01Icon,
+  ArrowUp01Icon,
 } from "@hugeicons/core-free-icons";
 const icons = {
   key: Key01Icon,
@@ -34,6 +35,7 @@ const icons = {
   lock: SquareLock01Icon,
   unlock: SquareUnlock01Icon,
   file: File01Icon,
+  up: ArrowUp01Icon,
 };
 export function Icon({
   name,

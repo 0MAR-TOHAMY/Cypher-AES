@@ -366,3 +366,127 @@
 .about-link:hover {
   text-decoration: underline;
 }
+
+/* ================= عارض النتيجة كدرج سفلي على الموبايل ================= */
+/* الكمبيوتر: الغلاف شفاف تمامًا ولا يغيّر التخطيط */
+.sheet-root,
+.sheet {
+  display: contents;
+}
+.sheet-opener {
+  display: none;
+}
+@media (max-width: 720px) {
+  .control-panel {
+    flex: 1;
+    min-height: 0;
+    max-height: none;
+    overflow-y: auto;
+    align-self: stretch;
+    padding-bottom: 70px;
+  }
+  .sheet-root {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    pointer-events: none;
+  }
+  .sheet-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 20, 30, 0.3);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  .sheet-root[data-open="true"] {
+    pointer-events: auto;
+  }
+  .sheet-root[data-open="true"] .sheet-overlay {
+    opacity: 1;
+  }
+  .sheet {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 90dvh;
+    display: flex;
+    flex-direction: column;
+    padding: 0 16px calc(16px + env(safe-area-inset-bottom));
+    background: #fff;
+    border-radius: 22px 22px 0 0;
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.12);
+    pointer-events: auto;
+  }
+  .sheet-handle {
+    flex: none;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    background: transparent;
+    touch-action: none;
+    cursor: grab;
+  }
+  .sheet-handle:active {
+    cursor: grabbing;
+  }
+  .sheet-handle span {
+    width: 44px;
+    height: 5px;
+    border-radius: 3px;
+    background: #d4d4d4;
+  }
+  .sheet .result-panel {
+    flex: 1;
+    min-height: 0;
+    padding-block: 0 4px;
+    gap: 10px;
+  }
+  /* زر فتح العارض: بسيط وبنفس شكل عناصر الموقع */
+  .sheet-opener {
+    position: fixed;
+    left: 50%;
+    bottom: calc(14px + env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    z-index: 30;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 16px;
+    border: 1px solid #e8e8e8;
+    background: #fff;
+    color: #111;
+    font-size: 12px;
+    font-weight: 500;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+    white-space: nowrap;
+  }
+  .sheet-opener svg {
+    color: #2458f5;
+  }
+  .sheet-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #2458f5;
+  }
+  .error-box {
+    bottom: 64px;
+  }
+}
+
+/* الموبايل: عرض الصورتين أسفل بعض بدل جنب بعض */
+@media (max-width: 720px) {
+  .preview-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 10px;
+  }
+  .preview-title {
+    font-size: 11px;
+  }
+}
