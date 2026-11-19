@@ -100,8 +100,8 @@ function repeatedBlocks(bytes: Uint8Array) {
 }
 
 const images = {
-  tux: rgbaOf("ui/public/samples/sample1.png"),
-  alice: rgbaOf("ui/public/samples/sample2.png"),
+  tux: rgbaOf("public/samples/sample1.png"),
+  alice: rgbaOf("public/samples/sample2.png"),
   "1x1 RGB": synthetic(1, 1, false),
   "7x3 RGBA (شفافية)": synthetic(7, 3, true),
   "33x5 RGB": synthetic(33, 5, false),

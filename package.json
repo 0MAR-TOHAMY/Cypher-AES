@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev ui -p 3001",
-    "build": "next build ui",
-    "test": "tsc --noEmit -p ui && tsx logic/amr/logic.test.ts",
-    "format": "prettier --write ui logic",
-    "format:check": "prettier --check ui logic"
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "test": "tsc --noEmit && tsx src/logic/amr/logic.test.ts",
+    "format": "prettier --write src *.ts *.json *.md",
+    "format:check": "prettier --check src *.ts *.json *.md"
   },
   "dependencies": {
     "@hugeicons/core-free-icons": "^4.3.5",

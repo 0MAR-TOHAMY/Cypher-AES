@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
-import "@/components/bencho/upstream/upload-dropzone/Upload.css";
-import "@/components/bencho/upstream/slide-confirm/SlideConfirm.css";
+import "@/app/components/bencho/upstream/upload-dropzone/Upload.css";
+import "@/app/components/bencho/upstream/slide-confirm/SlideConfirm.css";
 import "./globals.css";
-import PwaRegister from "@/components/PwaRegister";
+import PwaRegister from "@/app/components/PwaRegister";
 
 export const metadata: Metadata = {
   title: "تشفير الصور",

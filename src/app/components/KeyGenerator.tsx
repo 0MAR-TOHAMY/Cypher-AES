@@ -5,8 +5,8 @@ import {
   generateSecret,
   randomBytes,
   saltFromText,
-} from "@logic/omar/keys";
-import { toHex } from "@logic/omar/keys";
+} from "@/logic/omar/keys";
+import { toHex } from "@/logic/omar/keys";
 import { Icon } from "./Icons";
 import CopyButton from "./CopyButton";
 import ValueField from "./ValueField";
