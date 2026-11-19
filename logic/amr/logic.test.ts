@@ -1,16 +1,16 @@
 import { readFileSync } from "node:fs";
 import { decode } from "fast-png";
-import { fromHex, toHex } from "../src/lib/crypto/encoding";
-import { encryptBytes, decryptBytes } from "../src/lib/crypto/modes";
+import { fromHex, toHex } from "../omar/keys";
+import { encryptBytes, decryptBytes } from "./modes";
 import {
   deriveKey,
   generateAesKey,
   randomBytes,
   saltFromText,
-} from "../src/lib/crypto/keys";
-import { parseModeParameter } from "../src/lib/crypto/parameters";
-import { encryptPixels, decryptCipherPng } from "../src/lib/workflows/manual";
-import type { AesMode } from "../src/lib/types";
+} from "../omar/keys";
+import { parseModeParameter } from "../omar/keys";
+import { encryptPixels, decryptCipherPng } from "../omar/manual";
+import type { AesMode } from "./modes";
 
 let failed = 0;
 function check(name: string, ok: boolean, detail = "") {
@@ -24,7 +24,6 @@ const hex = (s: string) =>
 const equal = (a: Uint8Array, b: Uint8Array) =>
   a.length === b.length && a.every((v, i) => v === b[i]);
 
-// ---------- NIST SP 800-38A Appendix F (AES-256) ----------
 const key = hex(
   "603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4",
 );
@@ -61,14 +60,12 @@ for (const v of vectors) {
   );
 }
 
-// العداد العشري 85 (مثال المحاضرة) يتحول لـ16 byte big-endian.
 check(
   "CTR counter 85 → 16 bytes",
   toHex(parseModeParameter("CTR", "85")!) ===
     "00000000000000000000000000000055",
 );
 
-// ---------- دورة كاملة على الصور ----------
 function rgbaOf(path: string) {
   const img = decode(readFileSync(path));
   const { width, height, channels } = img;
@@ -91,7 +88,6 @@ function synthetic(width: number, height: number, alpha: boolean) {
   return { width, height, rgba };
 }
 
-// عدد الـblocks المكررة في ciphertext: ECB يكرر، CBC/CTR لا.
 function repeatedBlocks(bytes: Uint8Array) {
   const seen = new Set<string>();
   let repeats = 0;
@@ -104,8 +100,8 @@ function repeatedBlocks(bytes: Uint8Array) {
 }
 
 const images = {
-  tux: rgbaOf("public/samples/sample1.png"),
-  alice: rgbaOf("public/samples/sample2.png"),
+  tux: rgbaOf("ui/public/samples/sample1.png"),
+  alice: rgbaOf("ui/public/samples/sample2.png"),
   "1x1 RGB": synthetic(1, 1, false),
   "7x3 RGBA (شفافية)": synthetic(7, 3, true),
   "33x5 RGB": synthetic(33, 5, false),
@@ -131,7 +127,6 @@ for (const [name, source] of Object.entries(images)) {
         `${r}`,
       );
     }
-    // مفتاح غلط لازم يدي رسالة خطأ مش صورة بايظة.
     let threw = false;
     try {
       decryptCipherPng(png, generateAesKey(), mode, iv);
@@ -142,7 +137,6 @@ for (const [name, source] of Object.entries(images)) {
   }
 }
 
-// mode غلط وقت الفك لازم يُرفض.
 {
   const k = generateAesKey();
   const { png, iv } = encryptPixels(images.tux, k, "CBC");
@@ -155,7 +149,6 @@ for (const [name, source] of Object.entries(images)) {
   check("CBC file decrypted as CTR rejected", threw);
 }
 
-// ---------- اشتقاق المفتاح من جملة + Salt بأي طول ----------
 async function derivationTests() {
   const k = (phrase: string, salt: string) =>
     deriveKey(phrase, saltFromText(salt), 1000).then(toHex);

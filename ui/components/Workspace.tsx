@@ -1,14 +1,14 @@
 "use client";
-import { fromHex, toHex } from "@/lib/crypto/encoding";
+import { fromHex, toHex } from "@logic/omar/keys";
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 
-import type { AesMode } from "@/lib/types";
-import { generateAesKey, randomBytes } from "@/lib/crypto/keys";
-import { encryptManual, decryptManual } from "@/lib/workflows/manual";
+import type { AesMode } from "@logic/amr/modes";
+import { generateAesKey, randomBytes } from "@logic/omar/keys";
+import { encryptManual, decryptManual } from "@logic/omar/manual";
 
-import { parseModeParameter } from "@/lib/crypto/parameters";
+import { parseModeParameter } from "@logic/omar/keys";
 import { Icon } from "./Icons";
 import KeyGenerator from "./KeyGenerator";
 import ValueField from "./ValueField";

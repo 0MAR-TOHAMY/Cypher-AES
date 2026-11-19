@@ -5,8 +5,8 @@ import {
   generateSecret,
   randomBytes,
   saltFromText,
-} from "@/lib/crypto/keys";
-import { toHex } from "@/lib/crypto/encoding";
+} from "@logic/omar/keys";
+import { toHex } from "@logic/omar/keys";
 import { Icon } from "./Icons";
 import CopyButton from "./CopyButton";
 import ValueField from "./ValueField";

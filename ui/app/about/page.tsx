@@ -43,23 +43,25 @@ const TEAM = [
     id: "404058",
     icon: FileImageIcon,
     role: "قراءة الصورة وتجهيز البكسلات",
-    files: ["image/image-io.ts"],
+    files: ["abdallah/image-io.ts"],
     did: [
       "تحويل الصورة إلى بكسلات RGBA، وإعادة بنائها بصيغة PNG بعد فك التشفير.",
       "استكمال كل صف بأصفار حتى يصبح طوله مضاعفًا لـ16 byte، فيبقى كل block في موضعه ويظهر نمط ECB.",
       "حذف قناة alpha في الصور المعتمة، والإبقاء عليها في الصور التي تحتوي على شفافية.",
+      "اختبار استعادة الصورتين وصور حدّية (1×1، شفافة، عرض فردي) بالأوضاع الثلاثة.",
     ],
   },
   {
     name: "عمر حسين محمد تهامى",
     id: "404062",
     icon: Key01Icon,
-    role: "توليد المفتاح والقيم المساعدة",
-    files: ["crypto/keys.ts", "crypto/encoding.ts", "crypto/parameters.ts"],
+    role: "توليد المفتاح والقيم وربط المراحل",
+    files: ["omar/keys.ts", "omar/manual.ts"],
     did: [
       "توليد مفتاح AES-256 عشوائي (32 byte) باستخدام randomBytes من المكتبة.",
       "اشتقاق المفتاح اختياريًا من عبارة سرية وSalt باستخدام PBKDF2-SHA256.",
       "قراءة IV بصيغة Hex، وتحويل قيمة Counter العشرية إلى 16 byte.",
+      "ربط المراحل من استلام الصورة حتى إخراج النتيجة، وتوليد IV أو Counter تلقائيًا، ومنع تجاوز عداد CTR.",
     ],
   },
   {
@@ -67,11 +69,11 @@ const TEAM = [
     id: "404065",
     icon: CpuIcon,
     role: "محرك AES بالأوضاع الثلاثة",
-    files: ["crypto/modes.ts"],
+    files: ["amr/modes.ts", "amr/logic.test.ts"],
     did: [
       "تنفيذ التشفير وفك التشفير بـECB وCBC وCTR من خلال مكتبة @noble/ciphers.",
       "تعطيل الـPadding، لأن الصفوف مستكملة مسبقًا.",
-      "التحقق من مطابقة النتائج لأمثلة NIST SP 800-38A.",
+      "اختبار مطابقة النتائج لأمثلة NIST SP 800-38A، وظهور blocks مكررة مع ECB فقط.",
     ],
   },
   {
@@ -79,23 +81,11 @@ const TEAM = [
     id: "404066",
     icon: FileLockedIcon,
     role: "تمثيل الصورة المشفرة بصيغة PNG",
-    files: ["format/cipher-png.ts", "format/image-payload.ts"],
+    files: ["karim/cipher-png.ts"],
     did: [
       "تخزين الـciphertext كاملًا في ملف PNG يمكن فتحه بأي عارض صور دون فقد أي byte.",
       "إضافة footer مشفر يحتوي على signature وأبعاد الصورة.",
-      "إظهار رسالة خطأ عند استخدام Key أو Mode غير صحيح، لأن الـsignature لا تتطابق.",
-    ],
-  },
-  {
-    name: "معاذ احمد النعيرى ثابت",
-    id: "404081",
-    icon: WorkflowSquare03Icon,
-    role: "ربط المراحل والاختبار",
-    files: ["workflows/manual.ts", "tests/logic.test.ts"],
-    did: [
-      "ترتيب مراحل التشفير وفك التشفير من استلام الصورة حتى إخراج النتيجة.",
-      "توليد IV أو Counter تلقائيًا عند عدم إدخالهما، ومنع تجاوز الحد الأقصى للعداد في CTR.",
-      "كتابة الاختبارات: أمثلة NIST، والصورتان بالأوضاع الثلاثة، ورفض الـKey أو الـMode غير الصحيح.",
+      "إظهار رسالة خطأ عند استخدام Key أو Mode غير صحيح، لأن الـsignature لا تتطابق، مع اختبار ذلك.",
     ],
   },
 ];
@@ -243,7 +233,7 @@ export default function About() {
             ))}
           </ol>
           <p className="ab-note">
-            رقم كل مرحلة هو رقم العضو المسؤول عنها في قسم فريق العمل.
+            المراحل 1 إلى 4 بأرقام الأعضاء في قسم فريق العمل، والمرحلة 5 عكسها.
           </p>
         </section>
 
@@ -325,7 +315,7 @@ export default function About() {
           </h2>
           <p className="ab-note">
             الواجهة عمل مشترك بين أعضاء الفريق، وقد وُزِّعت مراحل الـlogic في{" "}
-            <span dir="ltr">src/lib/</span> على النحو التالي.
+            <span dir="ltr">logic/</span> على النحو التالي.
           </p>
           <div className="ab-team">
             {TEAM.map((m, i) => (
